@@ -14,8 +14,8 @@ RUN mkdir -p /data /etc/tahoe /var/tmp/tahoe /var/log/tahoe && \
         sed -e 's/^#tub.port =.*/tub.port = tcp:8098/g ' |\
         sed -e 's/^#tub.location =.*/tub.location = AUTO/g' |\
         sed -e ':a;N;$!ba;s/\/authorized_keys.*\[client\]/\/authorized_keys\ntempdir = \/var\/tmp\/tahoe\n\n\[client\]/g' |\
-        sed -e 's/^introducer.furl =.*/introducer.furl = pb:\/\/xc7riqo346u5xq6yfhinspwqyvrd5izc@introducer:44190\/raeapcnibqjlus44h2i5mug5xjnoja6t/g' |\
-        sed -e 's/^helper.furl =.*/helper.furl = pb:\/\/efnogemboqumoyvp4ca3nvzed3wo7ubj@helper:8097\/lfboeq7hqnveq3vqfnu2apgsbxutqfgd/g ' |\
+        sed -e 's/^introducer.furl =.*/introducer.furl = __PUT_INTRODUCER_FURL_HERE__\/raeapcnibqjlus44h2i5mug5xjnoja6t/g' |\
+        sed -e 's/^helper.furl =.*/helper.furl = __PUT_HELPER_FURL_HERE__/g ' |\
 		sed -e 's/^#shares.needed =.*/shares.needed = 1/g ' |\
         sed -e 's/^#shares.happy =.*/shares.happy = 2/g ' |\
         sed -e 's/^#shares.total =.*/shares.total = 3/g ' > /etc/tahoe/tahoe.cfg &&\
