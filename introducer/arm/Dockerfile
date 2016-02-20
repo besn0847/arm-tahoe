@@ -21,4 +21,4 @@ EXPOSE 3456 44190
 	
 WORKDIR /data
 
-CMD tahoe start /etc/tahoe/ -l /var/log/tahoe/introducer.log -n
+CMD tahoe start /etc/tahoe/ && tail -f /etc/tahoe/logs/twistd.log
