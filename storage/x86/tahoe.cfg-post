@@ -1,0 +1,7 @@
+
+[sftpd]
+enabled = true
+port = 8022
+host_pubkey_file = private/ssh_host_rsa_key.pub
+host_privkey_file = private/ssh_host_rsa_key
+accounts.file = private/ftp.accounts
