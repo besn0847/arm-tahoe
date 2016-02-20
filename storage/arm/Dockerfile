@@ -10,11 +10,12 @@ RUN apt-get update &&\
 RUN mkdir -p /data /etc/tahoe /var/tmp/tahoe /var/log/tahoe && \
 	tahoe create-node -C /etc/tahoe && \
 	cp /etc/tahoe/tahoe.cfg /tmp &&\
-    	cat /tmp/tahoe.cfg | sed -e 's/^web.port =.*/web.port = tcp:3456/g ' |\
-        sed -e 's/^#tub.port =.*/tub.port = tcp:44190/g ' |\
+    	cat /tmp/tahoe.cfg | sed -e 's/^web.port =.*/web.port = tcp:3458/g ' |\
+        sed -e 's/^#tub.port =.*/tub.port = tcp:8098/g ' |\
+        sed -e 's/^#tub.location =.*/tub.location = AUTO/g' |\
         sed -e ':a;N;$!ba;s/\/authorized_keys.*\[client\]/\/authorized_keys\ntempdir = \/var\/tmp\/tahoe\n\n\[client\]/g' |\
-        sed -e 's/^introducer.furl =.*/introducer.furl = pb:\/\/uyl5lfsh4fl5gxabj7nnyfzcelv3v54r@introducer:44190\/6ys34pdkhk2o5dq2hygysi6bjcx2srcd/g' |\
-        sed -e 's/^helper.furl =.*/helper.furl = pb:\/\/sm7pmbo6wea7ak5lrknoczu6hynblccn@helper:8097\/md5bhon55mwemv2mh7gvqtbwukcrutas/g ' |\
+        sed -e 's/^introducer.furl =.*/introducer.furl = pb:\/\/xc7riqo346u5xq6yfhinspwqyvrd5izc@introducer:44190\/raeapcnibqjlus44h2i5mug5xjnoja6t/g' |\
+        sed -e 's/^helper.furl =.*/helper.furl = pb:\/\/efnogemboqumoyvp4ca3nvzed3wo7ubj@helper:8097\/lfboeq7hqnveq3vqfnu2apgsbxutqfgd/g ' |\
 		sed -e 's/^#shares.needed =.*/shares.needed = 1/g ' |\
         sed -e 's/^#shares.happy =.*/shares.happy = 2/g ' |\
         sed -e 's/^#shares.total =.*/shares.total = 3/g ' > /etc/tahoe/tahoe.cfg &&\
