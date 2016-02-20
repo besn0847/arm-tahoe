@@ -29,8 +29,6 @@ ADD ftp.accounts /etc/tahoe/private/
 
 RUN cat /etc/tahoe/tahoe.cfg-post >> /etc/tahoe/tahoe.cfg
 
-EXPOSE 3456 8022 8097
-	
 WORKDIR /data
 
 CMD tahoe start /etc/tahoe/ && tail -f /etc/tahoe/logs/twistd.log  
