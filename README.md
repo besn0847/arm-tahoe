@@ -86,6 +86,7 @@ cd arm-tahoe/storage/arm
 3/ Edit your Dockerfile and replace the introducer and helper FURL tags by the address. This should look like:
 >sed -e 's/^introducer.furl =.*/introducer.furl = pb:\/\/22ww5y363r5v5vl6jp5642l6dyscw247@introducer:44190\/od6o247wfcbeeedk6hfbacl5vshn5bis/g' |\
         sed -e 's/^helper.furl =.*/helper.furl = pb:\/\/xs2xe65gporo4dvwjvvnrcwoc6hg3as3@helper:8097\/s54yv7eeobop2x5tuv4eaitswf2de67c/g ' |\
+
 4/ Create an aliases file with the alias above
 ```
 echo "tahoe: URI:DIR2:kdkuyuawcdzrbynaieqpep5cca:kbjxcb32opwy77vpj2dyrom3kejnsnymta36bebmymg7oogyfvvq" > aliases
