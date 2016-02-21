@@ -108,7 +108,7 @@ docker run -d -p 3458:3458 -p 8022:8022 -p 8098:8098 --net host arm-tahoe-storag
 
 ## 6. Operations
 To see all the nodes part of your distributed flesystem, just point your web browser to the helper web port :
-> http://<docker_host_ip_running_helper>:3457
+> http://docker_host_ip_running_helper:3457
 
 You can connect to storage nodes throught SFTP on port 8022 :
 ```
