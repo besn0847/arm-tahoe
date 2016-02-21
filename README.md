@@ -18,52 +18,52 @@ The following set-up is assumed :
 It is not possible to simply build the containers since there are some parameters issued by the introducer and helper bootstraps that are required to configure the nodes.
 
 ## 3. Bootstrap sequence for the introducer
-1. First, clone this repository :
+1/ First, clone this repository :
 ```
 git clone https://github.com/besn0847/arm-tahoe.git
 ```
-2. Move to the x86 repository for the introducer and build it :
+2/ Move to the x86 repository for the introducer and build it :
 ```
 cd arm-tahoe/introducer/x86 && docker build -t arm-tahoe-introducer .
 ```
-3. Start the introducer and bind the ports :
+3/ Start the introducer and bind the ports :
 ```
 docker run -d -p 3456:3456 -p 44190:44190 --name introducer --hostname introducer arm-tahoe-introducer
 ```
-4. You need to collect the full address of your introducer to be used to build the helper, storage nodes ...
- ```
+4/ You need to collect the full address of your introducer to be used to build the helper, storage nodes ...
+```
  docker exec -t -i introducer cat /etc/tahoe/private/introducer.furl
- ```
+```
 This looks like :
 > pb://22ww5y363r5v5vl6jp5642l6dyscw247@introducer:44190/od6o247wfcbeeedk6hfbacl5vshn5bis
 
 Note that the introducer FQDN in this FURL; so you can use an IP address or a hostname. Just make sure this can be resolved on each storage node.
 
 You now have a fully operational introducer and you can point your web browser to its web page : 
-> http://<your_docker_host>:3456
+> http://your_docker_host:3456
 
 ## 4. Bootstrap sequence for the helper
-1. Move to the helper x86 directory and edit the Dockerfile
-  ```
-  cd ../../helper/x86 && vi Dockerfile
-   ```
-2. Replace the __PUT_INTRODUCER_FURL_HERE__ tag by the introducer FURL collected above (don't forget to escape the / !!!). This should look like :
+1/ Move to the helper x86 directory and edit the Dockerfile
+```
+cd ../../helper/x86 && vi Dockerfile
+```
+2/ Replace the __PUT_INTRODUCER_FURL_HERE__ tag by the introducer FURL collected above (don't forget to escape the / !!!). This should look like :
 >  sed -e 's/^introducer.furl =.*/introducer.furl = pb:\/\/22ww5y363r5v5vl6jp5642l6dyscw247@introducer:44190\/od6o247wfcbeeedk6hfbacl5vshn5bis/g' |\
 
-3. Now you can build the helper
+3/ Now you can build the helper
 ```
 docker build -t arm-tahoe-helper .
 ```
-4. Start the helper 
+4/ Start the helper 
 ```
 docker run -d -p 3457:3457 -p 8097:8097 --name helper --hostname helper --link introducer arm-tahoe-helper
 ```
-5. Collect the helper FURL which will be needed for each storage
+5/ Collect the helper FURL which will be needed for each storage
 ```
 docker exec -t -i helper cat /etc/tahoe/private/helper.furl
 ```
 > pb://xs2xe65gporo4dvwjvvnrcwoc6hg3as3@helper:8097/s54yv7eeobop2x5tuv4eaitswf2de67c
-6. Also collect the alias for the newly created distributed file system
+6/ Also collect the alias for the newly created distributed file system
 ```
 docker exec -t -i helper cat /etc/tahoe/private/aliases
 ```
@@ -74,30 +74,30 @@ You now have an operational helper which will consolidate the replication flows 
 ## 5. Bootstrap sequence for each storage
 The following step must be performed on each node. Or it also possible to perform it once and then upload your storage node image to your private registry. Also make sure that introducer and helper hostname cvan be resolved on each Raspberry.
 
-1. First clone the repository on your Raspberry running HypriotOS
+1/ First clone the repository on your Raspberry running HypriotOS
 ```
 git clone https://github.com/besn0847/arm-tahoe.git
 ```
-2. Move to your storage ARM directory 
+2/ Move to your storage ARM directory 
 ```
 cd arm-tahoe/storage/arm
 ```
-3. Edit your Dockerfile and replace the introducer and helper FURL tags by the address. This should look like:
+3/ Edit your Dockerfile and replace the introducer and helper FURL tags by the address. This should look like:
 >sed -e 's/^introducer.furl =.*/introducer.furl = pb:\/\/22ww5y363r5v5vl6jp5642l6dyscw247@introducer:44190\/od6o247wfcbeeedk6hfbacl5vshn5bis/g' |\
         sed -e 's/^helper.furl =.*/helper.furl = pb:\/\/xs2xe65gporo4dvwjvvnrcwoc6hg3as3@helper:8097\/s54yv7eeobop2x5tuv4eaitswf2de67c/g ' |\
-4. Create an aliases file with the alias above
+4/ Create an aliases file with the alias above
 ```
 echo "tahoe: URI:DIR2:kdkuyuawcdzrbynaieqpep5cca:kbjxcb32opwy77vpj2dyrom3kejnsnymta36bebmymg7oogyfvvq" > aliases
 ```
-5. Create an ftp.accounts file with the URI from the alias (set your own password)
+5/ Create an ftp.accounts file with the URI from the alias (set your own password)
 ```
 echo "tahoe passw0rd URI:DIR2:kdkuyuawcdzrbynaieqpep5cca:kbjxcb32opwy77vpj2dyrom3kejnsnymta36bebmymg7oogyfvvq" > ftp.accounts
 ```
-6. Build your storage node
+6/ Build your storage node
 ```
 docker build -t arm-tahoe-storage .
 ```
-7. You are now ready to run your storage node (note i run it with --net host)
+7/ You are now ready to run your storage node (note i run it with --net host)
 ```
 docker run -d -p 3458:3458 -p 8022:8022 -p 8098:8098 --net host arm-tahoe-storage
 ```
