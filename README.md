@@ -63,6 +63,7 @@ docker run -d -p 3457:3457 -p 8097:8097 --name helper --hostname helper --link i
 docker exec -t -i helper cat /etc/tahoe/private/helper.furl
 ```
 > pb://xs2xe65gporo4dvwjvvnrcwoc6hg3as3@helper:8097/s54yv7eeobop2x5tuv4eaitswf2de67c
+
 6/ Also collect the alias for the newly created distributed file system
 ```
 docker exec -t -i helper cat /etc/tahoe/private/aliases
